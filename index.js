@@ -7,10 +7,9 @@ const logger = require("./utils/log");
 ///////////////////////////////////////////////////////////
 
 const express = require('express');
-const path = require('path');
-
 const app = express();
-const port = process.env.PORT || 8080;
+app.get('/', (req, res) => res.send('Bot is running'));
+app.listen(process.env.PORT || 3000);
 
 // Serve the index.html file
 app.get('/', function (req, res) {
