@@ -1,17 +1,16 @@
 module.exports.config = {
-	name: "groupname",
-	version: "1.0.0", 
-	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Rename your group",
-	commandCategory: "Box", 
-	usages: "groupname [name]", 
-	cooldowns: 0,
-	dependencies: [] 
+    name: "groupname",
+    version: "1.0",
+    role: 0,
+    author: "Custom",
+    shortDescription: "Change group name",
+    category: "box",
+    guide: "{p}groupname <name>"
 };
-
-module.exports.run = async function({ api, event, args }) {
-	var name = args.join(" ")
-	if (!name) api.sendMessage("❌ You have not entered the group name you want to change", event.threadID, event.messageID)
-	else api.setTitle(name, event.threadID, () => api.sendMessage(`🔨 The bot changed the group name to: ${name}`, event.threadID, event.messageID));
-}
+module.exports.run = function({ api, event, args }) {
+    if (global.lockedGroupName) return api.sendMessage(`Group name is locked to "${global.lockedGroupName}"`, event.threadID);
+    const name = args.join(" ");
+    if (!name) return api.sendMessage("Usage: /groupname <name>", event.threadID, event.messageID);
+    api.setTitle(name, event.threadID);
+    return api.sendMessage(`Group name changed to "${name}"`, event.threadID);
+};

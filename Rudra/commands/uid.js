@@ -1,17 +1,12 @@
 module.exports.config = {
-	name: "uid",
-	version: "1.0.0",
-	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Get User ID.",
-	commandCategory: "Tools",
-	cooldowns: 5
+    name: "uid",
+    version: "1.0",
+    role: 0,
+    author: "Custom",
+    shortDescription: "Show group ID",
+    category: "box",
+    guide: "{p}uid"
 };
-
-module.exports.run = function({ api, event }) {
-	if (Object.keys(event.mentions) == 0) return api.sendMessage(`${event.senderID}`, event.threadID, event.messageID);
-	else {
-		for (var i = 0; i < Object.keys(event.mentions).length; i++) api.sendMessage(`${Object.values(event.mentions)[i].replace('@', '')}: ${Object.keys(event.mentions)[i]}`, event.threadID);
-		return;
-	}
-}
+module.exports.run = function({ event, api }) {
+    return api.sendMessage(`Group ID: ${event.threadID}`, event.threadID);
+};
