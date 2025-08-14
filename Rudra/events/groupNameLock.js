@@ -1,22 +1,19 @@
-const { lockedNames } = require('../commands/lockname.js');
-
 module.exports.config = {
-  name: "groupNameLock",
-  eventType: ["log:thread-name"],
-  version: "1.0",
-  credits: "Rudra x ChatGPT"
+    name: "groupname",
+    version: "1.0",
+    role: 0,
+    author: "Custom",
+    shortDescription: "Change group name",
+    category: "box",
+    guide: "{p}groupname <new name>"
 };
 
-module.exports.run = async function({ event, api }) {
-  const { threadID, logMessageData } = event;
-  const lockedName = lockedNames[threadID];
+module.exports.run = function({ api, event, args }) {
+    const name = args.join(" ");
+    if (!name) return api.sendMessage("Usage: /groupname <new name>", event.threadID, event.messageID);
 
-  if (lockedName && logMessageData?.name !== lockedName) {
-    try {
-      await api.setTitle(lockedName, threadID);
-      return api.sendMessage(`⚠️ Locked name restore kiya: ${lockedName}`, threadID);
-    } catch (err) {
-      console.log("Error restoring name:", err);
-    }
-  }
+    api.setTitle(name, event.threadID, (err) => {
+        if (err) return api.sendMessage("❌ Failed to change group name. Make sure the bot account is an admin.", event.threadID);
+        return api.sendMessage(`✅ Group name changed to "${name}"`, event.threadID);
+    });
 };
